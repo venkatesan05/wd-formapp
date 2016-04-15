@@ -28,23 +28,20 @@ class WD_elements {
         }
 
         $nameAttr = substr($name, 0, -2);
-
         $tag = $label.'<input type="'.$type.'" name="'.$name.'" value="'.$value.'"';
         if ($attributes) {
             $tag .= $this->setAttributes( $attributes );
         }
         $tag .= '>';
 
-        if($req == 'req' && isset($_REQUEST[$nameAttr]) && isset($_REQUEST[$nameAttr]) && $type == 'checkbox' ){
-
-             $tag .= $this->setErrorLabel($name);
-
+        if($type == 'checkbox') {
+            if($req == 'req' && @$_REQUEST[$nameAttr] == '' && strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
+                     $tag .= $this->setErrorLabel($nameAttr);
+            }
         } else       
 
-        if( $req == 'req' && isset($_REQUEST[$name]) && $_REQUEST[$name] == ''){  
-
-            $tag .= $this->setErrorLabel($name);
-
+        if( $req == 'req' && strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' && @$_REQUEST[$name] == '' ){  
+                $tag .= $this->setErrorLabel($name);
         }       
 
 
